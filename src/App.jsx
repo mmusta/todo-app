@@ -1,7 +1,7 @@
 function App() {
   return (
     <div className="app">
-      Empty Project
+      Not Empty Project
     </div>
   );
 }
