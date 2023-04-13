@@ -18,7 +18,7 @@ function App() {
         Add Todo
       </button>
       <ul>
-        {todos.map((item) => <li key={todos.id}>{item}</li>)}
+        {todos.map((todo) => <li key={todo.id}>{todo}</li>)}
       </ul>
     </div>
   );
