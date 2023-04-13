@@ -8,7 +8,6 @@ function App() {
     const newTodo = inputRef.current.value;
     setTodos(todos.concat(newTodo));
   };
-  const listItems = todos.map((item) => <li key={todos.id}>{item}</li>);
   return (
     <div className="app">
       <div>
@@ -19,7 +18,7 @@ function App() {
         Add Todo
       </button>
       <ul>
-        {listItems}
+        {todos.map((item) => <li key={todos.id}>{item}</li>)}
       </ul>
     </div>
   );
