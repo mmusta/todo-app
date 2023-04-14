@@ -8,6 +8,11 @@ function App() {
     const newTodo = inputRef.current.value;
     setTodos(todos.concat(newTodo));
   };
+  const handleDeleteClick = (index) => {
+    const newTodos = todos.filter((_, todoIndex) => todoIndex !== index);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="app">
       <div>
@@ -18,7 +23,12 @@ function App() {
         Add Todo
       </button>
       <ul>
-        {todos.map((todo) => <li key={todo.id}>{todo}</li>)}
+        {todos.map((todo, index) => (
+          <li key={todo}>
+            {todo}
+            <button type="button" onClick={() => handleDeleteClick(index)}>Delete Todo</button>
+          </li>
+        ))}
       </ul>
     </div>
   );
