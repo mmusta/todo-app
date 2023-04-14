@@ -7,6 +7,7 @@ function App() {
   const handleAddTodoClick = () => {
     const newTodo = inputRef.current.value;
     setTodos(todos.concat(newTodo));
+    inputRef.current.value = '';
   };
   const handleDeleteClick = (index) => {
     const newTodos = todos.filter((_, todoIndex) => todoIndex !== index);
