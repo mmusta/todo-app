@@ -1,8 +1,27 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useForm } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+import './App.scss';
+
+const todoSchema = yup.object({
+  todoTitle: yup.string().min(4).required(),
+}).required();
 
 function App() {
+  const {
+    handleSubmit, register, setValue, control, formState: { errors },
+  } = useForm({
+    defaultValues: {
+      todoTitle: '',
+    },
+    resolver: yupResolver(todoSchema),
+  });
+
   const [isEditableList, setIsEditableList] = useState([]);
   /** @type {[{id: string, title: string, isCompleted: boolean}[],]} */
   const [todos, setTodos] = useState([]);
@@ -32,23 +51,25 @@ function App() {
     setTodos(updatedTodos);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
     const newTodo = {
       id: nanoid(),
-      title: event.target[0].value,
+      title: formValues.todoTitle,
       isCompleted: false,
     };
     setTodos(todos.concat(newTodo));
-    event.target[0].value = '';
+    setValue('todoTitle', '');
     setIsEditableList(isEditableList.concat(false));
   };
   return (
     <div className="app">
-      <form onSubmit={onSubmit}>
+      <DevTool control={control} placement="top-right" />
+
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="todo-title">Todo Title: </label>
-          <input id="todo-title" />
+          <input {...register('todoTitle')} />
+          {errors.todoTitle && <div className="app__error-message">{errors.todoTitle.message}</div>}
         </div>
         <button type="submit">
           Add Todo
